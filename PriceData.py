@@ -7,7 +7,7 @@ from datetime import date
 
 st.write("""
 #  Stock Price & Data App
-Shown are the stock closing price and volume of sp500 stock!
+You can pick sp500 stock to know their price, volume and financial data 
 """)
 
 
@@ -73,7 +73,7 @@ df = df.append({'Stock':selected_company,
                 'Beta':beta,
                 'Marketcap':marketcap, 
                 'FullTimeEmployees':fullTimeEmployees,
-               }, ignore_index=True)
+               }, ignore_index=True).set_index('Stock')
 
 st.table(df)
 
