@@ -5,6 +5,8 @@ import time
 from datetime import date
 
 
+
+
 st.write("""
 #  Stock Price & Data App
 You can pick sp500 stock to know their price, volume and financial data 
@@ -105,6 +107,19 @@ col2.metric("percentage(day)", '{: .2%}'.format(p1))
 col2.metric("persentage(week)", '{: .2%}'.format(p2))
 
 st.line_chart(tickerDf.Close)
-st.line_chart(tickerDf.Volume)
+st.line_chart(tickerDf.Volume, height = 1)
 
-df_sp500
+st.markdown(f'<h1 style="color:#B8472F;font-size:24px;">{"recent news"}</h1>', unsafe_allow_html=True)
+
+title = []
+link = []
+
+for i in range(5):
+    title.append(tickerData.news[i]['title'])
+    link.append("[link]("+tickerData.news[i]['link']+")")
+
+for i, j in zip(title, link):
+    st.write(f"{i} {j}")
+    
+df_sp500                                          
+                                          
