@@ -9,7 +9,7 @@ from datetime import date
 
 st.write("""
 #  Stock Price & Data App
-You can pick stock to know their price, volume and some financial data here. 
+You can pick stock to know their price, volume and some financial data here. There is a S&P 500 selection list on the left side. You can also type your favorite stock below.  
 """)
 
 
@@ -32,7 +32,7 @@ print(sp500)
 st.sidebar.header("user input")
 selected_company = st.sidebar.selectbox('Symbol', sp500)
 
-#selected_company = st.text_input('type your favorite company symbol here')
+selected_company = st.text_input('type your favorite company symbol here',selected_company)
 
 
 # define the ticker symbol
