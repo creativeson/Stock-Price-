@@ -9,7 +9,7 @@ from datetime import date
 
 st.write("""
 #  Stock Price & Data App
-You can pick sp500 stock to know their price, volume and financial data 
+You can pick stock to know their price, volume and some financial data here. 
 """)
 
 
@@ -32,7 +32,7 @@ print(sp500)
 st.sidebar.header("user input")
 selected_company = st.sidebar.selectbox('Symbol', sp500)
 
-title = st.text_input('company symbol', str(selected_company))
+#selected_company = st.text_input('type your favorite company symbol here')
 
 
 # define the ticker symbol
@@ -50,32 +50,33 @@ df = pd.DataFrame(columns=['Stock',
                            'Company',
                            'Industry',
                            'GrossMargins',
+                           'ebitdaMargins',
                            'ProfitMargins',
-                           'Beta',
-                           'Marketcap',
+                           'Beta',                        
                            'FullTimeEmployees'])
 
 info = yf.Ticker(selected_company).info
 
-longName = info['longName']
+
+shortName = info['shortName']
 industry = info['industry']
 grossMargins = info['grossMargins']
+ebitdaMargins = info['ebitdaMargins']
 profitMargins = info['profitMargins']
 beta = info['beta']
-marketcap = info['marketCap']
 fullTimeEmployees = info['fullTimeEmployees']
 
-st.write('The current company name is', longName)
+st.write('The current company name is', shortName)
 
 df = df.append({'Stock':selected_company,
-                'Company':longName,
+                'Company':shortName,
                 'Industry':industry,
                 'GrossMargins': '{: .2%}'.format(grossMargins),
+                'ebitdaMargins': '{: .2%}'.format(ebitdaMargins),
                 'ProfitMargins': '{: .2%}'.format(profitMargins),
                 'Beta':beta,
-                'Marketcap':marketcap, 
                 'FullTimeEmployees':fullTimeEmployees,
-               }, ignore_index=True).set_index('Stock')
+               }, ignore_index=True).set_index('Stock') #remove index 0
 
 st.table(df)
 
@@ -92,19 +93,29 @@ def current_date(symbol):
     return todays_data.index[4]
 
 
-c4 = round(current_price(selected_company)[4],2)
-c1 = round(current_price(selected_company)[1],2)
-c0 = round(current_price(selected_company)[0],2)
-p1 = (c1-c0)/c0
-p2 = (c4-c0)/c0
-p3 = round(c1-c0 ,2)
+new_price = round(current_price(selected_company)[4],2)
+yesterday_prace = round(current_price(selected_company)[3],2)
+week_ago_price = round(current_price(selected_company)[0],2)
+day_difference_p = (new_price-yesterday_prace)/yesterday_prace
+week_difference_p = (new_price-week_ago_price)/week_ago_price
+day_difference = round(new_price-yesterday_prace ,2)
+
+#count market capital of selected company
+
+
+mc = round(info['sharesOutstanding'] * new_price/1000000000, 2)
+
+mc_difference = round(day_difference * info['sharesOutstanding']/1000000000,2)
+
 #remove the timestamp
 new_date = current_date(selected_company).date()
 
-col1, col2, col3 = st.columns(3)
-col1.metric("Stock price (USD) "+ str(new_date), c1, p3)
-col2.metric("percentage(day)", '{: .2%}'.format(p1))
-col2.metric("persentage(week)", '{: .2%}'.format(p2))
+col1, col2, col3= st.columns(3)
+col1.metric("Stock price (USD) "+ str(new_date), new_price, day_difference)
+col2.metric("Change percentage(day)", '{: .2%}'.format(day_difference_p))
+col2.metric("Change persentage(week)", '{: .2%}'.format(week_difference_p))
+col3.metric("Market cap(billion)", mc, mc_difference)
+
 
 st.line_chart(tickerDf.Close)
 st.line_chart(tickerDf.Volume, height = 1)
@@ -114,6 +125,7 @@ st.markdown(f'<h1 style="color:#B8472F;font-size:24px;">{"recent news"}</h1>', u
 title = []
 link = []
 
+#create news title and link
 for i in range(5):
     title.append(tickerData.news[i]['title'])
     link.append("[link]("+tickerData.news[i]['link']+")")
