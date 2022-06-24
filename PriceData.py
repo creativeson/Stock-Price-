@@ -25,7 +25,7 @@ df_sp500 = load_data()
 
 #create a list to give selection for sidebar
 sp500 = []
-for i in range(504):
+for i in range(503):
     sp500.append(df_sp500['Symbol'][i])
 print(sp500)
 
