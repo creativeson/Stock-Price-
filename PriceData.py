@@ -130,6 +130,7 @@ for i in range(5):
 for i, j in zip(title, link):
     st.write(f"{i} {j}")
     
+#<<<<<<< HEAD
 
 # GICS = df_sp500[df_sp500['Symbol']== selected_company]['GICS Sub-Industry']            
 # st.write(GICS)            
@@ -140,3 +141,7 @@ try:
     df_GICS
 except:
     pass
+#=======
+df_sp500                                          
+                                          
+#>>>>>>> 5703759ab6ea50392962d22cb9a172619651d0a2
