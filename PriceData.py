@@ -4,9 +4,6 @@ import pandas as pd
 import time
 from datetime import date
 
-
-
-
 st.write("""
 #  Stock Price & Data App
 You can pick stock to know their price, volume and some financial data here. There is a S&P 500 selection list on the left side. You can also type your favorite stock below.  
@@ -25,14 +22,14 @@ df_sp500 = load_data()
 
 #create a list to give selection for sidebar
 sp500 = []
-for i in range(504):
+for i in range(503):
     sp500.append(df_sp500['Symbol'][i])
 print(sp500)
 
 st.sidebar.header("user input")
 selected_company = st.sidebar.selectbox('Symbol', sp500)
 
-selected_company = st.text_input('type your favorite company symbol here',selected_company)
+selected_company = st.text_input('type company symbol here',selected_company)
 
 
 # define the ticker symbol
@@ -133,5 +130,13 @@ for i in range(5):
 for i, j in zip(title, link):
     st.write(f"{i} {j}")
     
-df_sp500                                          
-                                          
+
+# GICS = df_sp500[df_sp500['Symbol']== selected_company]['GICS Sub-Industry']            
+# st.write(GICS)            
+
+try:
+    GICS = df_sp500[df_sp500['Symbol']== selected_company]['GICS Sub-Industry'].reset_index(drop=True) 
+    df_GICS = df_sp500[df_sp500['GICS Sub-Industry']== GICS[0]].reset_index(drop=True).drop(columns=['SEC filings'])        
+    df_GICS
+except:
+    pass
