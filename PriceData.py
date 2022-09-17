@@ -38,7 +38,7 @@ df_nasdaq = load_nasdaq()
 df_dow = load_dow()
 
 #create a list to give selection for sidebar
-sp500 = ['']
+sp500 = []
 for i in range(503):
     sp500.append(df_sp500['Symbol'][i])
     
@@ -50,10 +50,6 @@ nasdaq= ['']
 for i in range(102):
     nasdaq.append(df_nasdaq['Ticker'][i])
 
-# if selected:
-#     st.success('Yay! 🎉')
-# else:
-#     st.warning('No option is selected')
     
     
 st.sidebar.header("user input")
@@ -64,7 +60,6 @@ selected_company = st.sidebar.selectbox('sp500 Symbol', sp500)
 # selected_company = st.sidebar.selectbox('nasdaq', nasdaq, format_func=lambda x: 'Select an option' if x == '' else x)
 
 selected_company = st.text_input('type company symbol here', selected_company)
-
 
 
 # define the ticker symbol
@@ -101,8 +96,8 @@ try:
     profitMargins = info['profitMargins']
     beta = info['beta']
     fullTimeEmployees = info['fullTimeEmployees']
-    
-    
+
+
     st.write('The current company name is', shortName)
 
     df = df.append({'Stock':selected_company,
@@ -176,9 +171,10 @@ try:
         df_GICS
     except:
         pass
-    
+
 except:
     st.write("THIS STOCK SYMBOL IS WRONG! PLEASE TYPE THE RIGHT SYMBOL")
+
 
 
 
