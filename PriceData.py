@@ -85,11 +85,12 @@ df = pd.DataFrame(columns=['Stock',
 info = yf.Ticker(selected_company).info
 
 
-shortName = info['shortName']
+
 
 
 # notify if someone show wrong stock symbol
 try:
+    shortName = info['shortName']
     industry = info['industry']
     grossMargins = info['grossMargins']
     ebitdaMargins = info['ebitdaMargins']
