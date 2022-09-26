@@ -84,11 +84,7 @@ df = pd.DataFrame(columns=['Stock',
 
 info = yf.Ticker(selected_company).info
 
-
-
-
-
-# notify if someone show wrong stock symbol
+# notify if someone type in wrong stock symbol
 try:
     shortName = info['shortName']
     industry = info['industry']
