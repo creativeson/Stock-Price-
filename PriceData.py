@@ -39,15 +39,15 @@ df_dow = load_dow()
 
 #create a list to give selection for sidebar
 sp500 = []
-for i in range(503):
+for i in range(len(df_sp500)):
     sp500.append(df_sp500['Symbol'][i])
     
 dow= ['']
-for i in range(30):
+for i in range(len(df_dow)):
     dow.append(df_dow['Symbol'][i])
     
 nasdaq= ['']
-for i in range(102):
+for i in range(len(df_nasdaq)):
     nasdaq.append(df_nasdaq['Ticker'][i])
 
     
@@ -132,9 +132,9 @@ try:
     # count market capital of selected company
 
 
-    mc = round(info['sharesOutstanding'] * new_price/1000000000, 2)
+    mc = round(info['sharesOutstanding'] * new_price/ 1000_000_000, 2)
 
-    mc_difference = round(day_difference * info['sharesOutstanding']/1000000000,2)
+    mc_difference = round(day_difference * info['sharesOutstanding']/1000_000_000, 2)
 
     # remove the timestamp
     new_date = current_date(selected_company).date()
